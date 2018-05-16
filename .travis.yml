@@ -1,0 +1,21 @@
+language: python
+
+matrix:
+  include:
+    - python: 2.6
+    - python: 2.7
+    - python: 3.3
+    - python: 3.4
+    - python: 3.5
+    - python: 3.6
+    - python: pypy
+    - python: pypy3
+    - python: nightly
+
+install:
+  - pip install --no-cache-dir --requirement requirements.txt
+
+script:
+  - pep8 $(grep ^PEP8_OPTIONS configuration.mk | cut --delimiter=' ' --fields=3-) .
+  - coverage run setup.py test
+  - coverage report --include='edoclib/*' --fail-under=100
